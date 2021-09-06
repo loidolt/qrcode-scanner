@@ -17,3 +17,19 @@ Raspberry Pi Python based QR Code scanner that will follow a simple webhook to i
 # Run
 
     python3 /path/to/folder/scanner.py
+
+# Start on GUI Boot (Raspberry Pi)
+
+1. Create a .desktop file
+
+    mkdir /home/pi/.config/autostart
+    nano /home/pi/.config/autostart/clock.desktop
+
+2. Input the following into the new file (assuming the repo was cloned into the pi home directory)
+
+    [Desktop Entry]
+    Type=Application
+    Name=Scanner
+    Exec=/usr/bin/python3 /home/pi/qrcode-scanner/scanner.py
+
+3. Reboot
