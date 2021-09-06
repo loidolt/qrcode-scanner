@@ -24,22 +24,22 @@ while True:
             bbox[0][0][1]) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
         if data:
             print("data found: ", data)
-            r = requests.put(data)
+            res = requests.put(data)
             # print content of request
-            print(r.content)
+            print(res)
 
             # check status code for response recieved
             # success code - 200
-            if r == 200:
+            if res == 200:
                 for i in range(len(bbox)):
                     cv2.line(img, tuple(bbox[i][0]), tuple(
                         bbox[(i+1) % len(bbox)][0]), color=(0, 255, 0), thickness=4)
             else:
                 for i in range(len(bbox)):
                     cv2.line(img, tuple(bbox[i][0]), tuple(
-                        bbox[(i+1) % len(bbox)][0]), color=(255, 0, 0), thickness=4)
+                        bbox[(i+1) % len(bbox)][0]), color=(0, 0, 255), thickness=4)
     # display the image preview
-    cv2.imshow("QRCode Scanner", img)
+    cv2.imshow("QR Code Scanner", img)
     if(cv2.waitKey(1) == ord("q")):
         break
 # free camera object and exit
