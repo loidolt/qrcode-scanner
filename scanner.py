@@ -25,8 +25,8 @@ while True:
         if data:
             print("data found: ", data)
             res = requests.put(data)
-            # print content of request
-            print(res)
+            # print content of response
+            print(res.status_code)
 
             # check status code for response recieved
             # success code - 200
