@@ -5,9 +5,15 @@ import requests
 
 # set up camera object
 cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH,640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT,480)
+cap.set(cv2.CAP_PROP_FPS, 40)
 
 # QR code detection object
 detector = cv2.QRCodeDetector()
+
+# font
+font = cv2.FONT_HERSHEY_SIMPLEX
 
 while True:
     # get the image
@@ -21,7 +27,7 @@ while True:
             cv2.line(img, tuple(bbox[i][0]), tuple(
                 bbox[(i+1) % len(bbox)][0]), color=(255, 255, 0), thickness=2)
         cv2.putText(img, data, (int(bbox[0][0][0]), int(
-            bbox[0][0][1]) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+            bbox[0][0][1]) - 10), font, 0.5, (0, 255, 0), 2)
         if data:
             print("data found: ", data)
             res = requests.put(data)
@@ -35,13 +41,13 @@ while True:
                     cv2.line(img, tuple(bbox[i][0]), tuple(
                         bbox[(i+1) % len(bbox)][0]), color=(0, 255, 0), thickness=4)
                 cv2.putText(img, data, (int(bbox[0][0][0]), int(
-                    bbox[0][0][1]) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+                    bbox[0][0][1]) - 10), font, 0.5, (0, 255, 0), 2)
             else:
                 for i in range(len(bbox)):
                     cv2.line(img, tuple(bbox[i][0]), tuple(
                         bbox[(i+1) % len(bbox)][0]), color=(0, 0, 255), thickness=4)
                 cv2.putText(img, "Error, Please Try Again", (int(bbox[0][0][0]), int(
-                    bbox[0][0][1]) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+                    bbox[0][0][1]) - 10), font, 0.5, (0, 255, 0), 2)
     # display the image preview
     cv2.imshow("QR Code Scanner", img)
     if(cv2.waitKey(1) == ord("q")):
