@@ -30,14 +30,18 @@ while True:
 
             # check status code for response recieved
             # success code - 200
-            if res == 200:
+            if res.status_code == 200:
                 for i in range(len(bbox)):
                     cv2.line(img, tuple(bbox[i][0]), tuple(
                         bbox[(i+1) % len(bbox)][0]), color=(0, 255, 0), thickness=4)
+                cv2.putText(img, data, (int(bbox[0][0][0]), int(
+                    bbox[0][0][1]) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
             else:
                 for i in range(len(bbox)):
                     cv2.line(img, tuple(bbox[i][0]), tuple(
                         bbox[(i+1) % len(bbox)][0]), color=(0, 0, 255), thickness=4)
+                cv2.putText(img, "Error, Please Try Again", (int(bbox[0][0][0]), int(
+                    bbox[0][0][1]) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
     # display the image preview
     cv2.imshow("QR Code Scanner", img)
     if(cv2.waitKey(1) == ord("q")):
