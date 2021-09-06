@@ -1,3 +1,5 @@
+# Initial code credit https://www.pyimagesearch.com/2018/05/21/an-opencv-barcode-and-qr-code-scanner-with-zbar/
+
 # import the necessary packages
 from imutils.video import VideoStream
 from pyzbar import pyzbar
@@ -6,6 +8,7 @@ import datetime
 import imutils
 import time
 import cv2
+import requests
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -48,10 +51,14 @@ while True:
 		# if the barcode text is currently not in our CSV file, write
 		# the timestamp + barcode to disk and update the set
 		if barcodeData not in found:
-			csv.write("{},{}\n".format(datetime.datetime.now(),
-				barcodeData))
-			csv.flush()
-			found.add(barcodeData)
+            # send http put request
+            res = requests.put(barcodeData)
+            # if success, add to csv file to prevent duplicate submissions
+            if res.status_code == 200:
+                csv.write("{},{}\n".format(datetime.datetime.now(), barcodeData))
+                csv.flush()
+                found.add(barcodeData)
+
     # show the output frame
 	cv2.imshow("Barcode Scanner", frame)
 	key = cv2.waitKey(1) & 0xFF
